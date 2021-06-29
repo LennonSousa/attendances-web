@@ -6,7 +6,7 @@ import { Shift } from '../Shifts';
 import Schedule, { ShiftSchedule } from '../ShiftSchedules';
 import { dayOfWeekAsInteger } from '../../utils/dayOfWeekAsInteger';
 
-import './styles.css';
+import styles from './styles.module.css';
 
 export interface ShiftDay {
     id: string,
@@ -23,7 +23,7 @@ interface ShiftDaysProps {
 const ShiftDays: React.FC<ShiftDaysProps> = ({ day, handleListDays }) => {
     async function addDaySchedule() {
         try {
-            await api.post('employees/shifts/schedules', {
+            await api.post('attendances/shifts/schedules', {
                 from: 0,
                 to: 0,
                 day: day.id
@@ -38,11 +38,11 @@ const ShiftDays: React.FC<ShiftDaysProps> = ({ day, handleListDays }) => {
     }
 
     async function handleListSchedules() {
-
+        handleListDays();
     }
 
     return (
-        <Row className="container-day m-3">
+        <Row className={styles.containerDay}>
             <Col className="mt-3 mb-3" md={2}>
                 <Row className="justify-content-center text-center">
                     <Col className="col-12 mt-2 mb-2 text-success">

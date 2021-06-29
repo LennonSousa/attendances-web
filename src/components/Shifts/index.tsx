@@ -29,7 +29,7 @@ const Shifts: React.FC<ShiftsProps> = ({ shift, handleListShifts }) => {
     }
 
     return (
-        <ListGroup.Item variant="secondary">
+        <ListGroup.Item variant="light">
             <Row className="align-items-center">
                 <Col><span>{shift.name}</span></Col>
 
@@ -37,7 +37,7 @@ const Shifts: React.FC<ShiftsProps> = ({ shift, handleListShifts }) => {
                     <Button
                         variant="outline-success"
                         className="button-link"
-                        onClick={() => handleRoute(`/shifts/details/${shift.id}`)}
+                        onClick={() => handleRoute(`/attendances/shifts/details/${shift.id}`)}
                         title="Ver informações sobre o turno"
                     >
                         <FaUserTag /> Detalhes
@@ -49,7 +49,7 @@ const Shifts: React.FC<ShiftsProps> = ({ shift, handleListShifts }) => {
                         <Button
                             variant="outline-success"
                             className="button-link"
-                            onClick={() => handleRoute(`/shifts/edit/${shift.id}`)}
+                            onClick={() => handleRoute(`/attendances/shifts/edit/${shift.id}`)}
                             title="Editar turno"
                         >
                             <FaUserEdit /> Editar

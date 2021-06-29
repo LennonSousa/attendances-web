@@ -4,22 +4,12 @@ import Link from 'next/link';
 import { Accordion, Card, Dropdown, Row, Col } from 'react-bootstrap';
 import {
     FaColumns,
-    FaUserTie,
-    FaFileAlt,
+    FaToolbox,
+    FaReceipt,
+    FaIdCardAlt,
+    FaClock,
     FaList,
     FaPlus,
-    FaIdCard,
-    FaMapSigns,
-    FaFileSignature,
-    FaProjectDiagram,
-    FaClipboardList,
-    FaLayerGroup,
-    FaUniversity,
-    FaCity,
-    FaAward,
-    FaBalanceScaleLeft,
-    FaFileExcel,
-    FaSortAlphaDown,
     FaUsers,
     FaUsersCog
 } from 'react-icons/fa';
@@ -70,630 +60,85 @@ const Sidebar: React.FC = () => {
                 </Card>
 
                 {
-                    can(user, "customers", "read:any") && <Card className={styles.menuCard}>
+                    can(user, "attendances", "read:any") && <Card className={styles.menuCard}>
                         <Accordion.Toggle
                             as={Card.Header}
                             className={styles.menuCardHeader}
-                            eventKey="customers"
-                            onClick={() => handleItemSideBar('customers')}
+                            eventKey="attendances"
+                            onClick={() => handleItemSideBar('attendances')}
                         >
                             <div>
-                                <FaUserTie /> <span>Clientes</span>
+                                <FaClock /> <span>Ponto</span>
                             </div>
                         </Accordion.Toggle>
 
-                        <Accordion.Collapse eventKey="customers">
+                        <Accordion.Collapse eventKey="attendances">
                             <Card.Body className={styles.menuCardBody}>
-                                <Link href="/customers">
-                                    <a title="Listar todos os clientes" data-title="Listar todos os clientes">
+                                <Link href="/attendances">
+                                    <a title="Registro de entrada e saída" data-title="Registro de entrada e saída">
                                         <Row
                                             className={
-                                                selectedMenu === 'customers-index' ? styles.selectedMenuCardBodyItem :
+                                                selectedMenu === 'attendances-index' ? styles.selectedMenuCardBodyItem :
                                                     styles.menuCardBodyItem
                                             }
                                         >
                                             <Col sm={1}>
-                                                <FaList size={14} />
+                                                <FaReceipt size={14} />
                                             </Col>
                                             <Col>
-                                                <span>Lista</span>
+                                                <span>Registrar</span>
                                             </Col>
                                         </Row>
                                     </a>
                                 </Link>
-
-                                {
-                                    can(user, "customers", "create") && <Link href="/customers/new">
-                                        <a title="Criar um novo cliente" data-title="Criar um novo cliente">
-                                            <Row
-                                                className={
-                                                    selectedMenu === 'customers-new' ? styles.selectedMenuCardBodyItem :
-                                                        styles.menuCardBodyItem
-                                                }
-                                            >
-                                                <Col sm={1}>
-                                                    <FaPlus size={14} />
-                                                </Col>
-                                                <Col>
-                                                    <span>Novo</span>
-                                                </Col>
-                                            </Row>
-                                        </a>
-                                    </Link>
-                                }
-
-                                {
-                                    can(user, "customers", "update:any") && <>
-                                        <Link href="/docs/customer">
-                                            <a title="Listar os documentos para clientes" data-title="Listar os documentos para clientes">
-                                                <Row
-                                                    className={
-                                                        selectedMenu === 'customers-docs' ? styles.selectedMenuCardBodyItem :
-                                                            styles.menuCardBodyItem
-                                                    }
-                                                >
-                                                    <Col sm={1}>
-                                                        <FaIdCard size={14} />
-                                                    </Col>
-                                                    <Col>
-                                                        <span>Documentos</span>
-                                                    </Col>
-                                                </Row>
-                                            </a>
-                                        </Link>
-
-                                        <Dropdown.Divider />
-
-                                        <Link href="/customers/types">
-                                            <a title="Listar os tipos" data-title="Listar os tipos">
-                                                <Row
-                                                    className={
-                                                        selectedMenu === 'customers-types' ? styles.selectedMenuCardBodyItem :
-                                                            styles.menuCardBodyItem
-                                                    }
-                                                >
-                                                    <Col sm={1}>
-                                                        <FaUsersCog size={14} />
-                                                    </Col>
-                                                    <Col>
-                                                        <span>Tipos</span>
-                                                    </Col>
-                                                </Row>
-                                            </a>
-                                        </Link>
-                                    </>
-                                }
-
-
-                                {
-                                    can(user, "properties", "read:any") && <>
-                                        <Dropdown.Divider />
-
-                                        <Link href="/properties">
-                                            <a title="Listar todos os imóveis" data-title="Listar todos os imóveis">
-                                                <Row
-                                                    className={
-                                                        selectedMenu === 'properties-index' ? styles.selectedMenuCardBodyItem :
-                                                            styles.menuCardBodyItem
-                                                    }
-                                                >
-                                                    <Col sm={1}>
-                                                        <FaMapSigns size={14} />
-                                                    </Col>
-                                                    <Col>
-                                                        <span>Imóveis</span>
-                                                    </Col>
-                                                </Row>
-                                            </a>
-                                        </Link>
-
-                                        {
-                                            can(user, "customers", "create") && <Link href="/properties/new">
-                                                <a title="Criar um novo imóvel" data-title="Criar um novo imóvel">
-                                                    <Row
-                                                        className={
-                                                            selectedMenu === 'properties-new' ? styles.selectedMenuCardBodyItem :
-                                                                styles.menuCardBodyItem
-                                                        }
-                                                    >
-                                                        <Col sm={1}>
-                                                            <FaPlus size={14} />
-                                                        </Col>
-                                                        <Col>
-                                                            <span>Novo</span>
-                                                        </Col>
-                                                    </Row>
-                                                </a>
-                                            </Link>
-                                        }
-
-                                        {
-                                            can(user, "properties", "update:any") && <Link href="/docs/property">
-                                                <a title="Listar os documentos para imóveis" data-title="Listar os documentos para imóveis">
-                                                    <Row
-                                                        className={
-                                                            selectedMenu === 'properties-docs' ? styles.selectedMenuCardBodyItem :
-                                                                styles.menuCardBodyItem
-                                                        }
-                                                    >
-                                                        <Col sm={1}>
-                                                            <FaFileSignature size={14} />
-                                                        </Col>
-                                                        <Col>
-                                                            <span>Documentos</span>
-                                                        </Col>
-                                                    </Row>
-                                                </a>
-                                            </Link>
-                                        }
-                                    </>
-                                }
-                            </Card.Body>
-                        </Accordion.Collapse>
-                    </Card>
-                }
-
-                {
-                    can(user, "projects", "read:any") && <Card className={styles.menuCard}>
-                        <Accordion.Toggle
-                            as={Card.Header}
-                            className={styles.menuCardHeader}
-                            eventKey="projects"
-                            onClick={() => handleItemSideBar('projects')}
-                        >
-                            <div>
-                                <FaFileAlt /> <span>Projetos</span>
-                            </div>
-                        </Accordion.Toggle>
-
-                        <Accordion.Collapse eventKey="projects">
-                            <Card.Body className={styles.menuCardBody}>
-                                <Link href="/projects">
-                                    <a title="Listar todos os imóveis" data-title="Listar todos os imóveis">
-                                        <Row
-                                            className={
-                                                selectedMenu === 'projects-index' ? styles.selectedMenuCardBodyItem :
-                                                    styles.menuCardBodyItem
-                                            }
-                                        >
-                                            <Col sm={1}>
-                                                <FaList size={14} />
-                                            </Col>
-                                            <Col>
-                                                <span>Lista</span>
-                                            </Col>
-                                        </Row>
-                                    </a>
-                                </Link>
-
-                                {
-                                    can(user, "projects", "create") && <Link href="/projects/new">
-                                        <a title="Criar um novo projeto" data-title="Criar um novo projeto">
-                                            <Row
-                                                className={
-                                                    selectedMenu === 'projects-new' ? styles.selectedMenuCardBodyItem :
-                                                        styles.menuCardBodyItem
-                                                }
-                                            >
-                                                <Col sm={1}>
-                                                    <FaPlus size={14} />
-                                                </Col>
-                                                <Col>
-                                                    <span>Novo</span>
-                                                </Col>
-                                            </Row>
-                                        </a>
-                                    </Link>
-                                }
-
-                                {
-                                    can(user, "projects", "update:any") && <>
-                                        <Link href="/docs/project">
-                                            <a title="Listar os documentos para projetos" data-title="Listar os documentos para projetos">
-                                                <Row
-                                                    className={
-                                                        selectedMenu === 'projects-docs' ? styles.selectedMenuCardBodyItem :
-                                                            styles.menuCardBodyItem
-                                                    }
-                                                >
-                                                    <Col sm={1}>
-                                                        <FaIdCard size={14} />
-                                                    </Col>
-                                                    <Col>
-                                                        <span>Documentos</span>
-                                                    </Col>
-                                                </Row>
-                                            </a>
-                                        </Link>
-                                        <Dropdown.Divider />
-
-                                        <Link href="/projects/types">
-                                            <a title="Listar os tipos" data-title="Listar os tipos">
-                                                <Row
-                                                    className={
-                                                        selectedMenu === 'projects-types' ? styles.selectedMenuCardBodyItem :
-                                                            styles.menuCardBodyItem
-                                                    }
-                                                >
-                                                    <Col sm={1}>
-                                                        <FaProjectDiagram size={14} />
-                                                    </Col>
-                                                    <Col>
-                                                        <span>Tipos</span>
-                                                    </Col>
-                                                </Row>
-                                            </a>
-                                        </Link>
-
-                                        <Link href="/projects/status">
-                                            <a title="Listar as fases" data-title="Listar as fases">
-                                                <Row
-                                                    className={
-                                                        selectedMenu === 'projects-status' ? styles.selectedMenuCardBodyItem :
-                                                            styles.menuCardBodyItem
-                                                    }
-                                                >
-                                                    <Col sm={1}>
-                                                        <FaClipboardList size={14} />
-                                                    </Col>
-                                                    <Col>
-                                                        <span>Fases</span>
-                                                    </Col>
-                                                </Row>
-                                            </a>
-                                        </Link>
-
-                                        <Link href="/projects/lines">
-                                            <a title="Listar as linhas de crédito" data-title="Listar as linhas de crédito">
-                                                <Row
-                                                    className={
-                                                        selectedMenu === 'projects-lines' ? styles.selectedMenuCardBodyItem :
-                                                            styles.menuCardBodyItem
-                                                    }
-                                                >
-                                                    <Col sm={1}>
-                                                        <FaLayerGroup size={14} />
-                                                    </Col>
-                                                    <Col>
-                                                        <span>Linhas</span>
-                                                    </Col>
-                                                </Row>
-                                            </a>
-                                        </Link>
-                                    </>
-                                }
-                            </Card.Body>
-                        </Accordion.Collapse>
-                    </Card>
-                }
-
-                {
-                    can(user, "licensings", "read:any") && <Card className={styles.menuCard}>
-                        <Accordion.Toggle
-                            as={Card.Header}
-                            className={styles.menuCardHeader}
-                            eventKey="licensings"
-                            onClick={() => handleItemSideBar('licensings')}
-                        >
-                            <div>
-                                <FaFileAlt /> <span>Licenças</span>
-                            </div>
-                        </Accordion.Toggle>
-                        <Accordion.Collapse eventKey="licensings">
-                            <Card.Body className={styles.menuCardBody}>
-                                <Link href="/licensings">
-                                    <a title="Listar todos os licenciamentos" data-title="Listar todos os licenciamentos">
-                                        <Row
-                                            className={
-                                                selectedMenu === 'licensings-index' ? styles.selectedMenuCardBodyItem :
-                                                    styles.menuCardBodyItem
-                                            }
-                                        >
-                                            <Col sm={1}>
-                                                <FaList size={14} />
-                                            </Col>
-                                            <Col>
-                                                <span>Lista</span>
-                                            </Col>
-                                        </Row>
-                                    </a>
-                                </Link>
-
-                                {
-                                    can(user, "licensings", "create") && <Link href="/licensings/new">
-                                        <a title="Criar um novo licenciamento" data-title="Criar um novo licenciamento">
-                                            <Row
-                                                className={
-                                                    selectedMenu === 'licensings-new' ? styles.selectedMenuCardBodyItem :
-                                                        styles.menuCardBodyItem
-                                                }
-                                            >
-                                                <Col sm={1}>
-                                                    <FaPlus size={14} />
-                                                </Col>
-                                                <Col>
-                                                    <span>Novo</span>
-                                                </Col>
-                                            </Row>
-                                        </a>
-                                    </Link>
-                                }
-
-                                {
-                                    can(user, "licensings", "update:any") && <>
-                                        <Dropdown.Divider />
-
-                                        <Link href="/licensings/authorizations">
-                                            <a title="Listar os tipos" data-title="Listar os tipos">
-                                                <Row
-                                                    className={
-                                                        selectedMenu === 'licensings-authorizations' ? styles.selectedMenuCardBodyItem :
-                                                            styles.menuCardBodyItem
-                                                    }
-                                                >
-                                                    <Col sm={1}>
-                                                        <FaAward size={14} />
-                                                    </Col>
-                                                    <Col>
-                                                        <span>Licenças</span>
-                                                    </Col>
-                                                </Row>
-                                            </a>
-                                        </Link>
-
-                                        <Link href="/licensings/agencies">
-                                            <a title="Listar as orgãos" data-title="Listar os orgãos">
-                                                <Row
-                                                    className={
-                                                        selectedMenu === 'licensings-agencies' ? styles.selectedMenuCardBodyItem :
-                                                            styles.menuCardBodyItem
-                                                    }
-                                                >
-                                                    <Col sm={1}>
-                                                        <FaBalanceScaleLeft size={14} />
-                                                    </Col>
-                                                    <Col>
-                                                        <span>Orgãos</span>
-                                                    </Col>
-                                                </Row>
-                                            </a>
-                                        </Link>
-
-                                        <Link href="/licensings/status">
-                                            <a title="Listar as fases" data-title="Listar as fases">
-                                                <Row
-                                                    className={
-                                                        selectedMenu === 'licensings-status' ? styles.selectedMenuCardBodyItem :
-                                                            styles.menuCardBodyItem
-                                                    }
-                                                >
-                                                    <Col sm={1}>
-                                                        <FaClipboardList size={14} />
-                                                    </Col>
-                                                    <Col>
-                                                        <span>Fases</span>
-                                                    </Col>
-                                                </Row>
-                                            </a>
-                                        </Link>
-
-                                        <Link href="/licensings/infringements">
-                                            <a title="Listar as infrações" data-title="Listar as infrações">
-                                                <Row
-                                                    className={
-                                                        selectedMenu === 'licensings-infringements' ? styles.selectedMenuCardBodyItem :
-                                                            styles.menuCardBodyItem
-                                                    }
-                                                >
-                                                    <Col sm={1}>
-                                                        <FaFileExcel size={14} />
-                                                    </Col>
-                                                    <Col>
-                                                        <span>Infrações</span>
-                                                    </Col>
-                                                </Row>
-                                            </a>
-                                        </Link>
-                                    </>
-                                }
-                            </Card.Body>
-                        </Accordion.Collapse>
-                    </Card>
-                }
-
-                {
-                    can(user, "banks", "read:any") && <Card className={styles.menuCard}>
-                        <Accordion.Toggle
-                            as={Card.Header}
-                            className={styles.menuCardHeader}
-                            eventKey="banks"
-                            onClick={() => handleItemSideBar('banks')}
-                        >
-                            <div>
-                                <FaUniversity /> <span>Bancos</span>
-                            </div>
-                        </Accordion.Toggle>
-                        <Accordion.Collapse eventKey="banks">
-                            <Card.Body className={styles.menuCardBody}>
-                                <Link href="/banks">
-                                    <a title="Listar todos os bancos" data-title="Listar todos os bancos">
-                                        <Row
-                                            className={
-                                                selectedMenu === 'banks-index' ? styles.selectedMenuCardBodyItem :
-                                                    styles.menuCardBodyItem
-                                            }
-                                        >
-                                            <Col sm={1}>
-                                                <FaList size={14} />
-                                            </Col>
-                                            <Col>
-                                                <span>Lista</span>
-                                            </Col>
-                                        </Row>
-                                    </a>
-                                </Link>
-
-                                {
-                                    can(user, "banks", "create") && <Link href="/banks/new">
-                                        <a title="Criar um novo banco" data-title="Criar um novo banco">
-                                            <Row
-                                                className={
-                                                    selectedMenu === 'banks-new' ? styles.selectedMenuCardBodyItem :
-                                                        styles.menuCardBodyItem
-                                                }
-                                            >
-                                                <Col sm={1}>
-                                                    <FaPlus size={14} />
-                                                </Col>
-                                                <Col>
-                                                    <span>Novo</span>
-                                                </Col>
-                                            </Row>
-                                        </a>
-                                    </Link>
-                                }
 
                                 <Dropdown.Divider />
 
                                 {
-                                    can(user, "institutions", "read:any") && <Link href="/institutions">
-                                        <a title="Listar todas as instituições" data-title="Listar todas as instituições">
+                                    can(user, "employees", "read:any") && <Link href="/attendances/employees">
+                                        <a title="Listar todos os funcionários" data-title="Listar todos os funcionários">
                                             <Row
                                                 className={
-                                                    selectedMenu === 'institutions-index' ? styles.selectedMenuCardBodyItem :
+                                                    selectedMenu === 'employees-index' ? styles.selectedMenuCardBodyItem :
                                                         styles.menuCardBodyItem
                                                 }
                                             >
                                                 <Col sm={1}>
-                                                    <FaCity size={14} />
+                                                    <FaIdCardAlt size={14} />
                                                 </Col>
                                                 <Col>
-                                                    <span>Instituições</span>
+                                                    <span>Funcionários</span>
                                                 </Col>
                                             </Row>
                                         </a>
                                     </Link>
                                 }
+
+                                {
+                                    can(user, "shifts", "read:any") && <>
+                                        <Link href="/attendances/shifts">
+                                            <a title="Listar os turnos" data-title="Listar os turnos">
+                                                <Row
+                                                    className={
+                                                        selectedMenu === 'shifts-index' ? styles.selectedMenuCardBodyItem :
+                                                            styles.menuCardBodyItem
+                                                    }
+                                                >
+                                                    <Col sm={1}>
+                                                        <FaToolbox size={14} />
+                                                    </Col>
+                                                    <Col>
+                                                        <span>Turnos</span>
+                                                    </Col>
+                                                </Row>
+                                            </a>
+                                        </Link>
+                                    </>
+                                }
                             </Card.Body>
                         </Accordion.Collapse>
                     </Card>
                 }
-
-                <Card className={styles.menuCard}>
-                    <Accordion.Toggle
-                        as={Card.Header}
-                        className={styles.menuCardHeader}
-                        eventKey="reports"
-                        onClick={() => handleItemSideBar('reports')}
-                    >
-                        <div>
-                            <FaSortAlphaDown /> <span>Relatórios</span>
-                        </div>
-                    </Accordion.Toggle>
-                    <Accordion.Collapse eventKey="reports">
-                        <Card.Body className={styles.menuCardBody}>
-                            {
-                                can(user, "banks", "read:any") && <Link href="/reports/banks">
-                                    <a title="Relatórios de bancos" data-title="Relatórios de bancos">
-                                        <Row
-                                            className={
-                                                selectedMenu === 'reports-banks' ? styles.selectedMenuCardBodyItem :
-                                                    styles.menuCardBodyItem
-                                            }
-                                        >
-                                            <Col sm={1}>
-                                                <FaUniversity size={14} />
-                                            </Col>
-                                            <Col>
-                                                <span>Bancos</span>
-                                            </Col>
-                                        </Row>
-                                    </a>
-                                </Link>
-                            }
-
-                            {
-                                can(user, "customers", "read:any") && <Link href="/reports/customers">
-                                    <a title="Relatórios de clientes" data-title="Relatórios de clientes">
-                                        <Row
-                                            className={
-                                                selectedMenu === 'reports-customers' ? styles.selectedMenuCardBodyItem :
-                                                    styles.menuCardBodyItem
-                                            }
-                                        >
-                                            <Col sm={1}>
-                                                <FaUserTie size={14} />
-                                            </Col>
-                                            <Col>
-                                                <span>Clientes</span>
-                                            </Col>
-                                        </Row>
-                                    </a>
-                                </Link>
-                            }
-
-                            {
-                                can(user, "licensings", "read:any") && <Link href="/reports/licensings">
-                                    <a title="Relatórios de licenciamentos" data-title="Relatórios de licenciamentos">
-                                        <Row
-                                            className={
-                                                selectedMenu === 'reports-licensings' ? styles.selectedMenuCardBodyItem :
-                                                    styles.menuCardBodyItem
-                                            }
-                                        >
-                                            <Col sm={1}>
-                                                <FaFileAlt size={14} />
-                                            </Col>
-                                            <Col>
-                                                <span>Licenças</span>
-                                            </Col>
-                                        </Row>
-                                    </a>
-                                </Link>
-                            }
-
-                            {
-                                can(user, "projects", "read:any") && <Link href="/reports/projects">
-                                    <a title="Relatórios de projetos" data-title="Relatórios de projetos">
-                                        <Row
-                                            className={
-                                                selectedMenu === 'reports-projects' ? styles.selectedMenuCardBodyItem :
-                                                    styles.menuCardBodyItem
-                                            }
-                                        >
-                                            <Col sm={1}>
-                                                <FaFileAlt size={14} />
-                                            </Col>
-                                            <Col>
-                                                <span>Projetos</span>
-                                            </Col>
-                                        </Row>
-                                    </a>
-                                </Link>
-                            }
-
-                            {
-                                can(user, "properties", "read:any") && <Link href="/reports/properties">
-                                    <a title="Relatórios de imóveis" data-title="Relatórios de imóveis">
-                                        <Row
-                                            className={
-                                                selectedMenu === 'reports-properties' ? styles.selectedMenuCardBodyItem :
-                                                    styles.menuCardBodyItem
-                                            }
-                                        >
-                                            <Col sm={1}>
-                                                <FaMapSigns size={14} />
-                                            </Col>
-                                            <Col>
-                                                <span>Imóveis</span>
-                                            </Col>
-                                        </Row>
-                                    </a>
-                                </Link>
-                            }
-                        </Card.Body>
-                    </Accordion.Collapse>
-                </Card>
 
                 {
                     can(user, "users", "read:any") && <Card className={styles.menuCard}>

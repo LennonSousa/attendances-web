@@ -35,7 +35,7 @@ export default function Login() {
               <Col md={6} className="mt-1 mb-4">
                 <Row className="justify-content-center align-items-center">
                   <Col sm={8}>
-                    <Image fluid src="/assets/images/logo-bioma.svg" alt="Bioma consultoria." />
+                    <Image fluid src="/assets/images/logo-logica.svg" alt="Bioma consultoria." />
                   </Col>
                 </Row>
               </Col>

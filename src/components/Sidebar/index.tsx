@@ -746,6 +746,30 @@ const Sidebar: React.FC = () => {
                                         </a>
                                     </Link>
                                 }
+
+                                {
+                                    can(user, "users", "create") && <>
+                                        <Dropdown.Divider />
+
+                                        <Link href="/employees">
+                                            <a title="Listar os funcionários" data-title="Listar os funcionários">
+                                                <Row
+                                                    className={
+                                                        selectedMenu === 'customers-types' ? styles.selectedMenuCardBodyItem :
+                                                            styles.menuCardBodyItem
+                                                    }
+                                                >
+                                                    <Col sm={1}>
+                                                        <FaUsersCog size={14} />
+                                                    </Col>
+                                                    <Col>
+                                                        <span>Funcionários</span>
+                                                    </Col>
+                                                </Row>
+                                            </a>
+                                        </Link>
+                                    </>
+                                }
                             </Card.Body>
                         </Accordion.Collapse>
                     </Card>

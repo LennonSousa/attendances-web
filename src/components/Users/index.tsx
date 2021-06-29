@@ -5,7 +5,7 @@ import { FaUserEdit, FaPause, FaPlay, FaUserClock, FaUserTag } from 'react-icons
 
 import api from '../../api/api';
 
-type Resource = 'customers' | 'institutions' | 'licensings' | 'properties' | 'projects' | 'banks' | 'users';
+type Resource = 'employees' | 'shifts' | 'attendances' | 'estimates' | 'accompaniments' | 'services' | 'users';
 type Action = 'read:any' | 'read:own' | 'create' | 'update:any' | 'update:own' | 'delete';
 
 export interface User {

@@ -1,0 +1,6 @@
+.container-day {
+    min-height: 100px;
+    border: 1px #e6e6e6 solid;
+    border-radius: 5px;
+    align-items: center;
+}

@@ -1,5 +1,6 @@
 import { useContext, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 import { Col, Container, Row } from 'react-bootstrap';
 
 import { TokenVerify } from '../../utils/tokenVerify';
@@ -8,15 +9,18 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { PageWaiting } from '../../components/PageWaiting';
 
 export default function Dashboard() {
+    const router = useRouter();
+
     const { handleItemSideBar, handleSelectedMenu } = useContext(SideBarContext);
     const { loading, signed, user } = useContext(AuthContext);
 
     useEffect(() => {
-        if (signed && user) {
-            handleItemSideBar('dashboard');
-            handleSelectedMenu('dashboard');
-        }
-    }, [signed, user]);
+        router.push('/attendances');
+        // if (signed && user) {
+        //     handleItemSideBar('dashboard');
+        //     handleSelectedMenu('dashboard');
+        // }
+    }, []);
 
     return (
         loading ? <PageWaiting status="waiting" /> :

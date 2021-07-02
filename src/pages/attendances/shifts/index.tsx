@@ -152,11 +152,7 @@ export default function Institutions() {
 
                                         setTypeMessage("success");
 
-                                        setTimeout(() => {
-                                            setMessageShow(false);
-
-                                            router.push(`/attendances/shifts/edit/${shift.id}`);
-                                        }, 1000);
+                                        router.push(`/attendances/shifts/edit/${shift.id}`);
                                     }
                                     catch (err) {
                                         setTypeMessage("error");

@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import { Button, Col, Container, Form, Navbar, Row, Toast } from 'react-bootstrap';
+import { Button, Col, Container, Form, Nav, Navbar, NavDropdown, Row, Toast } from 'react-bootstrap';
 import { FaSignOutAlt, FaRegUserCircle, FaUserTie, FaUserCog } from 'react-icons/fa';
 
 import { AuthContext } from '../../contexts/AuthContext';
-
+import { SideNavBar } from '../Sidebar';
 
 export function Header() {
     const router = useRouter();
@@ -36,7 +36,7 @@ export function Header() {
         router.push(route);
     }
 
-    return showPageHeader ? <Navbar bg="dark" variant="dark">
+    return showPageHeader ? <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Container>
             <Navbar.Brand href="#home">
                 <Image
@@ -45,8 +45,13 @@ export function Header() {
                     width="30"
                     height="30"
                     className="d-inline-block align-top"
-                />{' '}Plataforma de gerenciamento
+                />{' '}Sistema
             </Navbar.Brand>
+
+            <Navbar.Toggle aria-controls="side-navbar-nav" />
+            <Navbar.Collapse id="side-navbar-nav">
+                <SideNavBar />
+            </Navbar.Collapse>
 
             <Form inline>
                 <Row>

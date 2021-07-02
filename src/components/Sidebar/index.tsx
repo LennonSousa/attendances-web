@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { Accordion, Card, Dropdown, Row, Col } from 'react-bootstrap';
+import { Accordion, Card, Dropdown, Nav, NavDropdown, Row, Col } from 'react-bootstrap';
 import {
     FaColumns,
     FaToolbox,
@@ -221,6 +221,58 @@ const Sidebar: React.FC = () => {
                 }
             </Accordion>
         </div > : null
+    )
+}
+
+export function SideNavBar() {
+    const { user } = useContext(AuthContext);
+
+    return (
+        user ? <Nav className="me-auto mb-3">
+            {
+                can(user, "attendances", "read:any") && <NavDropdown title="Ponto" id="attendances-dropdown">
+                    {
+                        can(user, "attendances", "create") && <Link href="/attendances" passHref>
+                            <NavDropdown.Item ><FaReceipt size={14} /> Registrar</NavDropdown.Item>
+                        </Link>
+                    }
+
+                    <NavDropdown.Divider />
+
+                    {
+                        can(user, "employees", "read:any") && <Link href="/attendances/employees" passHref>
+                            <NavDropdown.Item ><FaIdCardAlt size={14} /> Funcionários</NavDropdown.Item>
+                        </Link>
+                    }
+
+                    {
+                        can(user, "shifts", "read:any") && <Link href="/attendances/shifts" passHref>
+                            <NavDropdown.Item ><FaToolbox size={14} /> Turnos</NavDropdown.Item>
+                        </Link>
+                    }
+                </NavDropdown>
+
+
+            }
+
+            {
+                can(user, "users", "read:any") && <NavDropdown title="Usuários" id="users-dropdown">
+                    {
+                        can(user, "users", "create") && <Link href="/users" passHref>
+                            <NavDropdown.Item ><FaList size={14} /> Lista</NavDropdown.Item>
+                        </Link>
+                    }
+
+                    <NavDropdown.Divider />
+
+                    {
+                        can(user, "users", "read:any") && <Link href="/users/new" passHref>
+                            <NavDropdown.Item ><FaPlus size={14} /> Novo</NavDropdown.Item>
+                        </Link>
+                    }
+                </NavDropdown>
+            }
+        </Nav> : <></>
     )
 }
 

@@ -1,11 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import { Button, Col, Container, Form, Nav, Navbar, NavDropdown, Row, Toast } from 'react-bootstrap';
+import { Button, Col, Container, Form, Navbar, Row, Toast } from 'react-bootstrap';
 import { FaSignOutAlt, FaRegUserCircle, FaUserTie, FaUserCog } from 'react-icons/fa';
 
 import { AuthContext } from '../../contexts/AuthContext';
 import { SideNavBar } from '../Sidebar';
+
+import styles from './styles.module.css';
 
 export function Header() {
     const router = useRouter();
@@ -48,10 +50,13 @@ export function Header() {
                 />{' '}Sistema
             </Navbar.Brand>
 
-            <Navbar.Toggle aria-controls="side-navbar-nav" />
-            <Navbar.Collapse id="side-navbar-nav">
-                <SideNavBar />
-            </Navbar.Collapse>
+            <div className={styles.sideNavBarContainer}>
+                <Navbar.Toggle aria-controls="side-navbar-nav" />
+
+                <Navbar.Collapse id="side-navbar-nav">
+                    <SideNavBar />
+                </Navbar.Collapse>
+            </div>
 
             <Form inline>
                 <Row>

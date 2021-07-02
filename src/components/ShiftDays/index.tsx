@@ -1,5 +1,5 @@
 import { Row, Col, Button } from 'react-bootstrap';
-import { BsPlus } from "react-icons/bs";
+import { FaPlus, FaTrashAlt } from "react-icons/fa";
 
 import api from '../../api/api';
 import { Shift } from '../Shifts';
@@ -17,10 +17,11 @@ export interface ShiftDay {
 
 interface ShiftDaysProps {
     day: ShiftDay;
-    handleListDays(): Promise<void>;
+    canEdit?: boolean;
+    handleListDays?: () => Promise<void>;
 }
 
-const ShiftDays: React.FC<ShiftDaysProps> = ({ day, handleListDays }) => {
+const ShiftDays: React.FC<ShiftDaysProps> = ({ day, canEdit = true, handleListDays }) => {
     async function addDaySchedule() {
         try {
             await api.post('attendances/shifts/schedules', {
@@ -29,7 +30,7 @@ const ShiftDays: React.FC<ShiftDaysProps> = ({ day, handleListDays }) => {
                 day: day.id
             });
 
-            handleListDays();
+            handleListDays && handleListDays();
         }
         catch (err) {
             console.log('error post schedule day');
@@ -37,8 +38,20 @@ const ShiftDays: React.FC<ShiftDaysProps> = ({ day, handleListDays }) => {
         }
     }
 
+    async function deleteShiftDay() {
+        try {
+            await api.delete(`attendances/shifts/days/${day.id}`);
+
+            handleListDays && handleListDays();
+        }
+        catch (err) {
+            console.log('error to delete schedule day');
+            console.log(err);
+        }
+    }
+
     async function handleListSchedules() {
-        handleListDays();
+        handleListDays && handleListDays();
     }
 
     return (
@@ -50,16 +63,31 @@ const ShiftDays: React.FC<ShiftDaysProps> = ({ day, handleListDays }) => {
                     </Col>
                 </Row>
 
-                <Row className="justify-content-center text-center">
-                    <Col>
-                        <Button variant="outline-danger" onClick={addDaySchedule} ><BsPlus /> Horário</Button>
-                    </Col>
-                </Row>
+                {
+                    canEdit && <>
+                        <Row className="justify-content-center text-center mb-3">
+                            <Col>
+                                <Button variant="outline-danger" onClick={addDaySchedule} ><FaPlus /> Horário</Button>
+                            </Col>
+                        </Row>
+
+                        <Row className="justify-content-center text-center">
+                            <Col>
+                                <Button variant="outline-danger" onClick={deleteShiftDay} ><FaTrashAlt /> Excluir</Button>
+                            </Col>
+                        </Row>
+                    </>
+                }
             </Col>
 
             {
                 day.schedules && day.schedules.map(schedule => {
-                    return <Schedule key={schedule.id} schedule={schedule} handleListSchedules={handleListSchedules} />
+                    return <Schedule
+                        key={schedule.id}
+                        schedule={schedule}
+                        canEdit={canEdit}
+                        handleListSchedules={handleListSchedules}
+                    />
                 })
             }
         </Row>

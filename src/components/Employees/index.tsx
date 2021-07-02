@@ -5,20 +5,24 @@ import { FaUserEdit, FaUserTag } from 'react-icons/fa';
 
 import { AuthContext } from '../../contexts/AuthContext';
 import { can } from '../Users';
-import { ShiftDay } from '../ShiftDays';
+import { Shift } from '../Shifts';
+import { Attendance } from '../Attendances';
 
-export interface Shift {
+export interface Employee {
     id: string,
-    name: string;
-    tolerance: number;
-    days: ShiftDay[];
-}
-
-interface ShiftsProps {
+    name: string,
+    pin: string,
+    created_by: string,
+    created_at: Date,
     shift: Shift;
+    attendances: Attendance[];
 }
 
-const Shifts: React.FC<ShiftsProps> = ({ shift }) => {
+interface EmployeesProps {
+    employee: Employee;
+}
+
+const Employees: React.FC<EmployeesProps> = ({ employee }) => {
     const router = useRouter();
 
     const { user } = useContext(AuthContext)
@@ -30,26 +34,28 @@ const Shifts: React.FC<ShiftsProps> = ({ shift }) => {
     return (
         <ListGroup.Item variant="light">
             <Row className="align-items-center">
-                <Col><span>{shift.name}</span></Col>
+                <Col><span>{employee.name}</span></Col>
+
+                <Col className="col-row"><span>{employee.shift.name}</span></Col>
 
                 <Col className="col-row text-end">
                     <Button
                         variant="outline-success"
                         className="button-link"
-                        onClick={() => handleRoute(`/attendances/shifts/details/${shift.id}`)}
-                        title="Ver informações sobre o turno"
+                        onClick={() => handleRoute(`/attendances/employees/details/${employee.id}`)}
+                        title="Ver informações sobre o funcionário"
                     >
                         <FaUserTag /> Detalhes
                     </Button>
                 </Col>
 
                 {
-                    user && can(user, "shifts", "update:any") ? <Col className="col-row text-end">
+                    user && can(user, "employees", "update:any") ? <Col className="col-row text-end">
                         <Button
                             variant="outline-success"
                             className="button-link"
-                            onClick={() => handleRoute(`/attendances/shifts/edit/${shift.id}`)}
-                            title="Editar turno"
+                            onClick={() => handleRoute(`/attendances/employees/edit/${employee.id}`)}
+                            title="Editar funcionário"
                         >
                             <FaUserEdit /> Editar
                         </Button>
@@ -60,4 +66,4 @@ const Shifts: React.FC<ShiftsProps> = ({ shift }) => {
     )
 }
 
-export default Shifts;
+export default Employees;

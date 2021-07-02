@@ -115,6 +115,7 @@ export default function UserEdit() {
 
             setTypeLoadingMessage("error");
             setTextLoadingMessage("Não foi possível carregar os dados, verifique a sua internet e tente novamente em alguns minutos.");
+            setLoadingData(false);
         });
     }
 
@@ -142,7 +143,7 @@ export default function UserEdit() {
                                                         setMessageShow(true);
 
                                                         try {
-                                                            await api.put(`users/${data.id}`, {
+                                                            await api.put(`attendances/shifts/${data.id}`, {
                                                                 name: values.name,
                                                                 tolerance: values.tolerance,
                                                             });
@@ -355,7 +356,7 @@ export default function UserEdit() {
 
                                                 <Modal show={showItemDelete} onHide={handleCloseItemDelete}>
                                                     <Modal.Header closeButton>
-                                                        <Modal.Title>Excluir pessoa</Modal.Title>
+                                                        <Modal.Title>Excluir turno</Modal.Title>
                                                     </Modal.Header>
                                                     <Modal.Body>
                                                         Você tem certeza que deseja excluir este turno? Essa ação não poderá ser desfeita.

@@ -103,7 +103,6 @@ export default function Institutions() {
                                                         return <Shifts
                                                             key={index}
                                                             shift={shift}
-                                                            handleListShifts={handleListShifts}
                                                         />
                                                     })
                                                 }

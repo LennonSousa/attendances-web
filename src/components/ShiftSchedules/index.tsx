@@ -19,6 +19,7 @@ export interface ShiftSchedule {
 
 interface ShiftSchedulesProps {
     schedule: ShiftSchedule;
+    canEdit?: boolean;
     handleListSchedules(): Promise<void>;
 }
 
@@ -29,7 +30,7 @@ const validationSchema = Yup.object().shape({
     to: Yup.string().required('Obrigatório'),
 });
 
-const ShiftSchedules: React.FC<ShiftSchedulesProps> = ({ schedule, handleListSchedules }) => {
+const ShiftSchedules: React.FC<ShiftSchedulesProps> = ({ schedule, canEdit = true, handleListSchedules }) => {
     const [fieldsFormTouched, setFieldsFormTouched] = useState(false);
     const [savingScheduleStatus, setSavingScheduleStatus] = useState<savingStatus>("saved");
     const [waitingDelete, setWaitingDelete] = useState(false);
@@ -92,6 +93,7 @@ const ShiftSchedules: React.FC<ShiftSchedulesProps> = ({ schedule, handleListSch
                                     defaultValue={values.from}
                                     name="from"
                                     isInvalid={!!errors.from}
+                                    disabled={!canEdit}
                                 />
                                 <Form.Control.Feedback type="invalid">{errors.from}</Form.Control.Feedback>
                             </Col>
@@ -107,41 +109,44 @@ const ShiftSchedules: React.FC<ShiftSchedulesProps> = ({ schedule, handleListSch
                                     defaultValue={values.to}
                                     name="to"
                                     isInvalid={!!errors.to}
+                                    disabled={!canEdit}
                                 />
                                 <Form.Control.Feedback type="invalid">{errors.to}</Form.Control.Feedback>
                             </Col>
                         </Form.Group>
 
-                        <Form.Row className="justify-content-center">
-                            <Col className="col-4">
-                                <Button variant="outline-danger" onClick={deleteSchedule}>
-                                    {
-                                        waitingDelete ? <Spinner
-                                            as="span"
-                                            animation="border"
-                                            size="sm"
-                                            role="status"
-                                            aria-hidden="true"
-                                        /> : <FaTrashAlt />
-                                    }
-                                </Button>
-                            </Col>
-                            <Col className="col-4">
-                                <Button variant="outline-success" disabled={!fieldsFormTouched} type="submit" >
-                                    {
-                                        savingScheduleStatus === "saving" ? <Spinner
-                                            as="span"
-                                            animation="border"
-                                            size="sm"
-                                            role="status"
-                                            aria-hidden="true"
-                                        /> : (
-                                            savingScheduleStatus === "saved" ? <FaCheck /> : savingScheduleStatus === "touched" && <FaSave />
-                                        )
-                                    }
-                                </Button>
-                            </Col>
-                        </Form.Row>
+                        {
+                            canEdit && <Form.Row className="justify-content-center">
+                                <Col className="col-4">
+                                    <Button variant="outline-danger" onClick={deleteSchedule}>
+                                        {
+                                            waitingDelete ? <Spinner
+                                                as="span"
+                                                animation="border"
+                                                size="sm"
+                                                role="status"
+                                                aria-hidden="true"
+                                            /> : <FaTrashAlt />
+                                        }
+                                    </Button>
+                                </Col>
+                                <Col className="col-4">
+                                    <Button variant="outline-success" disabled={!fieldsFormTouched} type="submit" >
+                                        {
+                                            savingScheduleStatus === "saving" ? <Spinner
+                                                as="span"
+                                                animation="border"
+                                                size="sm"
+                                                role="status"
+                                                aria-hidden="true"
+                                            /> : (
+                                                savingScheduleStatus === "saved" ? <FaCheck /> : savingScheduleStatus === "touched" && <FaSave />
+                                            )
+                                        }
+                                    </Button>
+                                </Col>
+                            </Form.Row>
+                        }
                     </Form>
                 )}
             </Formik>

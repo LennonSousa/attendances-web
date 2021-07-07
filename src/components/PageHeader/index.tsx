@@ -40,7 +40,7 @@ export function Header() {
 
     return showPageHeader ? <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Container>
-            <Navbar.Brand href="#home">
+            <Navbar.Brand>
                 <Image
                     alt=""
                     src="/assets/images/logo-logica.svg"

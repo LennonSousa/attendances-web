@@ -57,7 +57,7 @@ export default function Institutions() {
         setTypeModalMessage("waiting");
 
         try {
-            await api.post('attendances', {
+            await api.post('employees/attendances', {
                 pin,
             });
 
@@ -113,7 +113,7 @@ export default function Institutions() {
                             setMessageShow(true);
 
                             try {
-                                const res = await api.get(`attendances?pin=${values.pin}`,
+                                const res = await api.get(`employees/attendances/register?pin=${values.pin}`,
                                     {
                                         validateStatus: function (status) {
                                             return status < 500; // Resolve only if the status code is less than 500

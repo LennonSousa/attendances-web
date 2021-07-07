@@ -43,7 +43,7 @@ export default function UserEdit() {
 
         if (user) {
             if (can(user, "employees", "create")) {
-                api.get('attendances/shifts').then(res => {
+                api.get('employees/shifts').then(res => {
                     setShifts(res.data);
 
                     setLoadingData(false);
@@ -79,7 +79,7 @@ export default function UserEdit() {
                                         setMessageShow(true);
 
                                         try {
-                                            await api.post('attendances/employees', {
+                                            await api.post('employees', {
                                                 name: values.name,
                                                 pin: values.pin,
                                                 shift: values.shift,

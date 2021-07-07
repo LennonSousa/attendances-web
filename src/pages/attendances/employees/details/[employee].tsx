@@ -35,7 +35,7 @@ export default function UserDetails() {
 
         if (user) {
             if (can(user, "employees", "read:any")) {
-                api.get(`attendances/employees/${employee}`).then(res => {
+                api.get(`employees/${employee}`).then(res => {
                     setData(res.data);
 
                     setLoadingData(false);

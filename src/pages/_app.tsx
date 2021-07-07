@@ -14,7 +14,7 @@ import styles from '../styles/app.module.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return <>
-    <NextSeo titleTemplate="Lógica | %s" defaultTitle="Plataforma de gerenciamento." />
+    <NextSeo titleTemplate="%s | Lógica" defaultTitle="Plataforma de gerenciamento." />
 
     <Head>
       <meta charSet="utf-8" />

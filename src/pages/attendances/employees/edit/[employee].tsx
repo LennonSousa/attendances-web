@@ -52,10 +52,10 @@ export default function UserEdit() {
 
         if (user) {
             if (can(user, "employees", "update:any")) {
-                api.get(`attendances/employees/${employee}`).then(res => {
+                api.get(`employees/${employee}`).then(res => {
                     setData(res.data);
 
-                    api.get('attendances/shifts').then(res => {
+                    api.get('employees/shifts').then(res => {
                         setShifts(res.data);
                     }).catch(err => {
                         console.log('Error to get shifts, ', err);
@@ -80,7 +80,7 @@ export default function UserEdit() {
 
             try {
                 if (can(user, "employees", "delete")) {
-                    await api.delete(`attendances/employees/${employee}`);
+                    await api.delete(`employees/${employee}`);
 
                     setTypeMessage("success");
 
@@ -127,7 +127,7 @@ export default function UserEdit() {
                                                         setMessageShow(true);
 
                                                         try {
-                                                            await api.put(`attendances/employees/${data.id}`, {
+                                                            await api.put(`employees/${data.id}`, {
                                                                 name: values.name,
                                                                 pin: values.pin,
                                                                 shift: values.shift,

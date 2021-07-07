@@ -35,7 +35,7 @@ export default function Institutions() {
         handleSelectedMenu('employees-index');
 
         if (user && can(user, "employees", "read:any")) {
-            api.get('attendances/employees').then(res => {
+            api.get('employees').then(res => {
                 setEmployees(res.data);
 
                 setLoadingData(false);

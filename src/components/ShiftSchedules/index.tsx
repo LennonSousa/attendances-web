@@ -39,7 +39,7 @@ const ShiftSchedules: React.FC<ShiftSchedulesProps> = ({ schedule, canEdit = tru
         setWaitingDelete(true);
 
         try {
-            await api.delete(`attendances/shifts/schedules/${schedule.id}`);
+            await api.delete(`employees/shifts/schedules/${schedule.id}`);
 
             handleListSchedules();
         }
@@ -65,7 +65,7 @@ const ShiftSchedules: React.FC<ShiftSchedulesProps> = ({ schedule, canEdit = tru
                     setSavingScheduleStatus("saving");
 
                     try {
-                        await api.put(`attendances/shifts/schedules/${schedule.id}`, {
+                        await api.put(`employees/shifts/schedules/${schedule.id}`, {
                             from: convertHourToMinutes(values.from),
                             to: convertHourToMinutes(values.to),
                         });

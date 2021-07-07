@@ -34,7 +34,7 @@ export default function UserDetails() {
 
         if (user) {
             if (can(user, "shifts", "read:any")) {
-                api.get(`attendances/shifts/${shift}`).then(res => {
+                api.get(`employees/shifts/${shift}`).then(res => {
                     setData(res.data);
 
                     setLoadingData(false);

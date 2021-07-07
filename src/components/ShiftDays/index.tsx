@@ -24,7 +24,7 @@ interface ShiftDaysProps {
 const ShiftDays: React.FC<ShiftDaysProps> = ({ day, canEdit = true, handleListDays }) => {
     async function addDaySchedule() {
         try {
-            await api.post('attendances/shifts/schedules', {
+            await api.post('employees/shifts/schedules', {
                 from: 0,
                 to: 0,
                 day: day.id
@@ -40,7 +40,7 @@ const ShiftDays: React.FC<ShiftDaysProps> = ({ day, canEdit = true, handleListDa
 
     async function deleteShiftDay() {
         try {
-            await api.delete(`attendances/shifts/days/${day.id}`);
+            await api.delete(`employees/shifts/days/${day.id}`);
 
             handleListDays && handleListDays();
         }

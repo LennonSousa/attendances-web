@@ -62,7 +62,7 @@ export default function UserEdit() {
 
         if (user) {
             if (can(user, "shifts", "update:any")) {
-                api.get(`attendances/shifts/${shift}`).then(res => {
+                api.get(`employees/shifts/${shift}`).then(res => {
                     setData(res.data);
 
                     setLoadingData(false);
@@ -83,7 +83,7 @@ export default function UserEdit() {
 
             try {
                 if (can(user, "shifts", "delete")) {
-                    await api.delete(`attendances/shifts/${shift}`);
+                    await api.delete(`employees/shifts/${shift}`);
 
                     setTypeMessage("success");
 
@@ -106,7 +106,7 @@ export default function UserEdit() {
     }
 
     async function handleListDays() {
-        api.get(`attendances/shifts/${shift}`).then(res => {
+        api.get(`employees/shifts/${shift}`).then(res => {
             setData(res.data);
 
             setLoadingData(false);
@@ -143,7 +143,7 @@ export default function UserEdit() {
                                                         setMessageShow(true);
 
                                                         try {
-                                                            await api.put(`attendances/shifts/${data.id}`, {
+                                                            await api.put(`employees/shifts/${data.id}`, {
                                                                 name: values.name,
                                                                 tolerance: values.tolerance,
                                                             });

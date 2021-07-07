@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
+import { NextSeo } from 'next-seo';
 import { Button, Col, Container, Image, Form, ListGroup, Modal, Row } from 'react-bootstrap';
 import { FaPlus } from 'react-icons/fa';
 import { Formik } from 'formik';
@@ -43,7 +44,7 @@ export default function Institutions() {
         handleSelectedMenu('shifts-index');
 
         if (user && can(user, "shifts", "read:any")) {
-            api.get('attendances/shifts').then(res => {
+            api.get('employees/shifts').then(res => {
                 setShifts(res.data);
 
                 setLoadingData(false);
@@ -58,154 +59,177 @@ export default function Institutions() {
     }, [user]);
 
     async function handleListShifts() {
-        const res = await api.get('attendances/shifts');
+        const res = await api.get('employees/shifts');
 
         setShifts(res.data);
     }
 
-    return !user || loading ? <PageWaiting status="waiting" /> :
+    return (
         <>
-            {
-                can(user, "shifts", "read:any") ? <Container className="content-page">
-                    {
-                        can(user, "shifts", "create") && <Row>
-                            <Col>
-                                <Button variant="outline-success" onClick={handleShowModalNewItem}>
-                                    <FaPlus /> Criar um turno
-                                </Button>
-                            </Col>
-                        </Row>
-                    }
-
-                    <article className="mt-3">
+            <NextSeo
+                title="Lista de turnos"
+                description="Lista de turnos da plataforma de gerenciamento da Lógica renováveis."
+                openGraph={{
+                    url: 'https://app.logicarenovaveis.com',
+                    title: 'Lista de turnos',
+                    description: 'Lista de turnos da plataforma de gerenciamento da Lógica renovaveis.',
+                    images: [
                         {
-                            loadingData ? <Col>
-                                <Row>
-                                    <Col>
-                                        <AlertMessage status={typeLoadingMessage} message={textLoadingMessage} />
-                                    </Col>
-                                </Row>
+                            url: 'https://app.logicarenovaveis.com/assets/images/logo-logica.jpg',
+                            alt: 'Lista de turnos | Plataforma Lógica',
+                        },
+                        { url: 'https://app.logicarenovaveis.com/assets/images/logo-logica.jpg' },
+                    ],
+                }}
+            />
 
+            {
+                !user || loading ? <PageWaiting status="waiting" /> :
+                    <>
+                        {
+                            can(user, "shifts", "read:any") ? <Container className="content-page">
                                 {
-                                    typeLoadingMessage === "error" && <Row className="justify-content-center mt-3 mb-3">
-                                        <Col sm={3}>
-                                            <Image src="/assets/images/undraw_server_down_s4lk.svg" alt="Erro de conexão." fluid />
+                                    can(user, "shifts", "create") && <Row>
+                                        <Col>
+                                            <Button variant="outline-success" onClick={handleShowModalNewItem}>
+                                                <FaPlus /> Criar um turno
+                                            </Button>
                                         </Col>
                                     </Row>
                                 }
-                            </Col> :
-                                <Row>
+
+                                <article className="mt-3">
                                     {
-                                        user && !!shifts.length ? <Col>
-                                            <ListGroup>
-                                                {
-                                                    shifts && shifts.map((shift, index) => {
-                                                        return <Shifts
-                                                            key={index}
-                                                            shift={shift}
-                                                        />
-                                                    })
-                                                }
-                                            </ListGroup>
-                                        </Col> :
-                                            <Col>
-                                                <Row>
-                                                    <Col className="text-center">
-                                                        <p style={{ color: 'var(--gray)' }}>Você ainda não tem nenhum turno registrado.</p>
-                                                    </Col>
-                                                </Row>
+                                        loadingData ? <Col>
+                                            <Row>
+                                                <Col>
+                                                    <AlertMessage status={typeLoadingMessage} message={textLoadingMessage} />
+                                                </Col>
+                                            </Row>
 
-                                                <Row className="justify-content-center mt-3 mb-3">
+                                            {
+                                                typeLoadingMessage === "error" && <Row className="justify-content-center mt-3 mb-3">
                                                     <Col sm={3}>
-                                                        <Image src="/assets/images/undraw_not_found.svg" alt="Sem dados para mostrar." fluid />
+                                                        <Image src="/assets/images/undraw_server_down_s4lk.svg" alt="Erro de conexão." fluid />
                                                     </Col>
                                                 </Row>
-                                            </Col>
+                                            }
+                                        </Col> :
+                                            <Row>
+                                                {
+                                                    user && !!shifts.length ? <Col>
+                                                        <ListGroup>
+                                                            {
+                                                                shifts && shifts.map((shift, index) => {
+                                                                    return <Shifts
+                                                                        key={index}
+                                                                        shift={shift}
+                                                                    />
+                                                                })
+                                                            }
+                                                        </ListGroup>
+                                                    </Col> :
+                                                        <Col>
+                                                            <Row>
+                                                                <Col className="text-center">
+                                                                    <p style={{ color: 'var(--gray)' }}>Você ainda não tem nenhum turno registrado.</p>
+                                                                </Col>
+                                                            </Row>
+
+                                                            <Row className="justify-content-center mt-3 mb-3">
+                                                                <Col sm={3}>
+                                                                    <Image src="/assets/images/undraw_not_found.svg" alt="Sem dados para mostrar." fluid />
+                                                                </Col>
+                                                            </Row>
+                                                        </Col>
+                                                }
+                                            </Row>
                                     }
-                                </Row>
-                        }
-                    </article>
+                                </article>
 
-                    <Modal show={showModalNewItem} onHide={handleCloseModalNewItem}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Criar um turno</Modal.Title>
-                        </Modal.Header>
-                        <Formik
-                            initialValues={
-                                {
-                                    name: '',
-                                }
-                            }
-                            onSubmit={async values => {
-                                if (can(user, "shifts", "create")) {
-                                    setTypeMessage("waiting");
-                                    setMessageShow(true);
-
-                                    try {
-                                        const res = await api.post('attendances/shifts', {
-                                            name: values.name,
-                                        });
-
-                                        const shift: Shift = res.data;
-
-                                        await handleListShifts();
-
-                                        setTypeMessage("success");
-
-                                        router.push(`/attendances/shifts/edit/${shift.id}`);
-                                    }
-                                    catch (err) {
-                                        setTypeMessage("error");
-
-                                        setTimeout(() => {
-                                            setMessageShow(false);
-                                        }, 4000);
-
-                                        console.log('error create shift.');
-                                        console.log(err);
-                                    }
-                                }
-                            }}
-                            validationSchema={validationSchema}
-                        >
-                            {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
-                                <Form onSubmit={handleSubmit}>
-                                    <Modal.Body>
-                                        <Form.Group controlId="shiftFormGridName">
-                                            <Form.Label>Nome do turno</Form.Label>
-                                            <Form.Control type="text"
-                                                placeholder="Nome"
-                                                onChange={handleChange}
-                                                onBlur={handleBlur}
-                                                value={values.name}
-                                                name="name"
-                                                isInvalid={!!errors.name && touched.name}
-                                            />
-                                            <Form.Control.Feedback type="invalid">{touched.name && errors.name}</Form.Control.Feedback>
-                                            <Form.Text className="text-muted text-right">{`${values.name.length}/50 caracteres.`}</Form.Text>
-                                        </Form.Group>
-
-                                    </Modal.Body>
-                                    <Modal.Footer>
-                                        {
-                                            messageShow ? <AlertMessage status={typeMessage} /> :
-                                                <>
-                                                    <Button variant="secondary" onClick={handleCloseModalNewItem}>
-                                                        Cancelar
-                                                    </Button>
-                                                    <Button variant="success" type="submit">Continuar</Button>
-                                                </>
-
+                                <Modal show={showModalNewItem} onHide={handleCloseModalNewItem}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Criar um turno</Modal.Title>
+                                    </Modal.Header>
+                                    <Formik
+                                        initialValues={
+                                            {
+                                                name: '',
+                                            }
                                         }
-                                    </Modal.Footer>
-                                </Form>
-                            )}
-                        </Formik>
-                    </Modal>
-                </Container> :
-                    <PageWaiting status="warning" message="Acesso negado!" />
+                                        onSubmit={async values => {
+                                            if (can(user, "shifts", "create")) {
+                                                setTypeMessage("waiting");
+                                                setMessageShow(true);
+
+                                                try {
+                                                    const res = await api.post('employees/shifts', {
+                                                        name: values.name,
+                                                    });
+
+                                                    const shift: Shift = res.data;
+
+                                                    await handleListShifts();
+
+                                                    setTypeMessage("success");
+
+                                                    router.push(`/employees/shifts/edit/${shift.id}`);
+                                                }
+                                                catch (err) {
+                                                    setTypeMessage("error");
+
+                                                    setTimeout(() => {
+                                                        setMessageShow(false);
+                                                    }, 4000);
+
+                                                    console.log('error create shift.');
+                                                    console.log(err);
+                                                }
+                                            }
+                                        }}
+                                        validationSchema={validationSchema}
+                                    >
+                                        {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+                                            <Form onSubmit={handleSubmit}>
+                                                <Modal.Body>
+                                                    <Form.Group controlId="shiftFormGridName">
+                                                        <Form.Label>Nome do turno</Form.Label>
+                                                        <Form.Control type="text"
+                                                            placeholder="Nome"
+                                                            onChange={handleChange}
+                                                            onBlur={handleBlur}
+                                                            value={values.name}
+                                                            name="name"
+                                                            isInvalid={!!errors.name && touched.name}
+                                                        />
+                                                        <Form.Control.Feedback type="invalid">{touched.name && errors.name}</Form.Control.Feedback>
+                                                        <Form.Text className="text-muted text-right">{`${values.name.length}/50 caracteres.`}</Form.Text>
+                                                    </Form.Group>
+
+                                                </Modal.Body>
+                                                <Modal.Footer>
+                                                    {
+                                                        messageShow ? <AlertMessage status={typeMessage} /> :
+                                                            <>
+                                                                <Button variant="secondary" onClick={handleCloseModalNewItem}>
+                                                                    Cancelar
+                                                                </Button>
+                                                                <Button variant="success" type="submit">Continuar</Button>
+                                                            </>
+
+                                                    }
+                                                </Modal.Footer>
+                                            </Form>
+                                        )}
+                                    </Formik>
+                                </Modal>
+                            </Container> :
+                                <PageWaiting status="warning" message="Acesso negado!" />
+                        }
+                    </>
             }
         </>
+    )
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {

@@ -11,7 +11,8 @@ import {
     FaList,
     FaPlus,
     FaUsers,
-    FaUsersCog
+    FaUsersCog,
+    FaUserClock
 } from 'react-icons/fa';
 
 import { SideBarContext } from '../../contexts/SideBarContext';
@@ -135,6 +136,24 @@ const Sidebar: React.FC = () => {
                                         </Link>
                                     </>
                                 }
+
+                                <Link href="/attendances/reports">
+                                    <a title="Relatórios de entradas e saídas" data-title="Relatórios de entradas e saídas">
+                                        <Row
+                                            className={
+                                                selectedMenu === 'attendances-reports' ? styles.selectedMenuCardBodyItem :
+                                                    styles.menuCardBodyItem
+                                            }
+                                        >
+                                            <Col sm={1}>
+                                                <FaUserClock size={14} />
+                                            </Col>
+                                            <Col>
+                                                <span>Relatórios</span>
+                                            </Col>
+                                        </Row>
+                                    </a>
+                                </Link>
                             </Card.Body>
                         </Accordion.Collapse>
                     </Card>
